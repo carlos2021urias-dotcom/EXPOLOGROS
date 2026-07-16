@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS resenas(
 	REFERENCES usuarios(id_usuario)
 );
 
-CREATE TABLE destinos(
+CREATE TABLE IF NOT EXISTS destinos(
 	id_destino INT AUTO_INCREMENT PRIMARY KEY,
 	id_categoria INT NOT NULL,
 	nombre VARCHAR(150) NOT NULL,
@@ -41,11 +41,11 @@ CREATE TABLE destinos(
 	'jovenes',
 	'pareja',
 	'todos'
-	)DEFAULT 'todos',
+	)DEFAULT 'todos'
 	
 );
  
-CREATE TABLE favoritos(
+CREATE TABLE IF NOT EXISTS favoritos(
 	id_favorito INT AUTO_INCREMENT PRIMARY KEY,
 	id_usuario INT NOT NULL,
 	id_destino INT NOT NULL,
@@ -53,11 +53,11 @@ CREATE TABLE favoritos(
 	FOREIGN KEY(id_usuario)
 	REFERENCES usuarios(id_usuario),
 	FOREIGN KEY(id_destino)
-	REFERENCES destinos(id_destinos)
+	REFERENCES destinos(id_destino)
  
 );
  
-CREATE TABLE historial_visitas(
+CREATE TABLE IF NOT EXISTS historial_visitas(
 	id_visita INT AUTO_INCREMENT PRIMARY KEY,
 	id_usuario INT NOT NULL,
 	id_destino INT NOT NULL,
@@ -70,7 +70,7 @@ CREATE TABLE historial_visitas(
 	REFERENCES destinos(id_destino)
 );
  
-CREATE TABLE presupuestos_viaje(
+CREATE TABLE IF NOT EXISTS presupuestos_viaje(
 	id_presupuesto INT AUTO_INCREMENT PRIMARY KEY,
 	id_usuario INT NOT NULL,
 	id_destino INT NOT NULL,
@@ -96,31 +96,26 @@ CREATE TABLE presupuestos_viaje(
 
 
 
-CREATE TABLE categorias_destino(
+CREATE TABLE IF NOT EXISTS categorias_destino(
 	id_categoria INT AUTO_INCREMENT PRIMARY KEY,
 	nombre_categoria VARCHAR(100) NOT NULL UNIQUE,
 	icono VARCHAR(100) NULL
 );
 
-CREATE TABLE imagenes_destino(
+CREATE TABLE IF NOT EXISTS actividades (
+   id_actividad INT AUTO_INCREMENT PRIMARY KEY,
+   id_destino INT NOT NULL,
+   nombre VARCHAR(100) NOT NULL,
+   FOREIGN KEY (id_destino)
+   REFERENCES destinos(id_destino)
+);
+
+
+CREATE TABLE IF NOT EXISTS imagenes_destino(
 	id_imagen INT AUTO_INCREMENT PRIMARY KEY,
 	id_destino INT NOT NULL,
-	imagen_url VARCHAR(255),
+	imagen_url VARCHAR(255) NOT NULL,
 	FOREIGN KEY(id_destino)
 	REFERENCES destinos(id_destino)
 );
 
-CREATE TABLE actividades(
-	id_actividad INT AUTO_INCREMENT PRIMARY KEY,
-	id_destino INT NOT NULL,
-	nombre VARCHAR(100) NOT NULL,
-	actividad_seleccionar ENUM(
-	'kayak',
-	'jet ski',
-	'nadar',
-	'paseo en lancha',
-	'restaurante',
-	FOREIGN KEY(id_destino)
-	REFERENCES destinos(id_destino)
-	)
-);
